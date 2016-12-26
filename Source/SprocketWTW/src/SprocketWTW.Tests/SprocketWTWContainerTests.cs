@@ -32,8 +32,5 @@ namespace SprocketWTW.Tests
             Exception ex = Assert.Throws<InvalidOperationException>(() => { container.Resolve<ISimpleInterface>(); });
             Assert.NotNull(ex);
         }
-
-        [Fact]
-        public void RegisterComponentSingleton
     }
 }
