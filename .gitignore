@@ -1,0 +1,10 @@
+~$
+Source/SprocketWTW/src/SprocketWTW/obj/
+Source/SprocketWTW/src/SprocketWTW/bin/
+Source/SprocketWTW/src/SprocketWTW.Tests/obj/
+/bin/
+Source/SprocketWTW/src/SprocketWTW.Tests/bin/
+Source/SprocketWTW/settings.StyleCop
+Source/SprocketWTW/.global.json.un~
+Source/SprocketWTW/.vs/restore.dg
+Source/SprocketWTW/global.json~

@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A7548938-4E1F-490E-A6A7-DD2CB9AF37CB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3BCD4F48-38C4-4113-AD1C-5402B0BBC4FF}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SprocketWTW", "SprocketWTW\SprocketWTW.xproj", "{A5867ED5-2A76-4CBC-964C-1A0430505F60}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SprocketWTW.Tests", "SprocketWTW.Tests\SprocketWTW.Tests.xproj", "{B7ABF87D-2A5D-4EE3-8D40-7A59971DAA21}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5867ED5-2A76-4CBC-964C-1A0430505F60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5867ED5-2A76-4CBC-964C-1A0430505F60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5867ED5-2A76-4CBC-964C-1A0430505F60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5867ED5-2A76-4CBC-964C-1A0430505F60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7ABF87D-2A5D-4EE3-8D40-7A59971DAA21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7ABF87D-2A5D-4EE3-8D40-7A59971DAA21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7ABF87D-2A5D-4EE3-8D40-7A59971DAA21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7ABF87D-2A5D-4EE3-8D40-7A59971DAA21}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A5867ED5-2A76-4CBC-964C-1A0430505F60} = {A7548938-4E1F-490E-A6A7-DD2CB9AF37CB}
+		{B7ABF87D-2A5D-4EE3-8D40-7A59971DAA21} = {A7548938-4E1F-490E-A6A7-DD2CB9AF37CB}
+	EndGlobalSection
+EndGlobal
