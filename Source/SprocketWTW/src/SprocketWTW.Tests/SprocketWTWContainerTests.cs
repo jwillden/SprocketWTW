@@ -1,5 +1,7 @@
 ﻿using System;
+using Moq;
 using Xunit;
+using SprocketWTW.Lifetime;
 
 namespace SprocketWTW.Tests
 {
@@ -9,17 +11,21 @@ namespace SprocketWTW.Tests
         [Fact]
         public void RegisterComponentWithDefaultLifeCycle()
         {
-            var container = new SprocketWTWContainer();
+            var moqMang = GetMockLifetimeManagement();
+            var container = new SprocketWTWContainer(moqMang.Object);
             container.Register<ISimpleInterface, SimpleClass>();
+
             var obj = container.Resolve<ISimpleInterface>();
             Assert.IsType<SimpleClass>(obj);
         }
 
         [Fact]
-        public void RegisterComponentWithExplicitTransientLifeCycle()
+        public void RegisterComponentWithExplicitLifeCycle()
         {
-            var container = new SprocketWTWContainer();
-            container.Register<ISimpleInterface, SimpleClass>(LifeTime.Transient);
+            var moqMang = GetMockLifetimeManagement();
+            var container = new SprocketWTWContainer(moqMang.Object);
+            container.Register<ISimpleInterface, SimpleClass>(LifetimeEnum.Transient);
+
             var obj = container.Resolve<ISimpleInterface>();
             Assert.IsType<SimpleClass>(obj);
         }
@@ -29,6 +35,7 @@ namespace SprocketWTW.Tests
         {
             var container = new SprocketWTWContainer();
             container.Register<ISimpleInterface, SimpleClass>();
+
             var obj1 = container.Resolve<ISimpleInterface>();
             var obj2 = container.Resolve<ISimpleInterface>();
             Assert.NotEqual(obj1, obj2);
@@ -43,17 +50,7 @@ namespace SprocketWTW.Tests
 
             Assert.NotNull(ex);
         }
-
-        [Fact]
-        public void RegisterComponentExplicitTransientAlwaysNewObject()
-        {
-            var container = new SprocketWTWContainer();
-            container.Register<ISimpleInterface, SimpleClass>(LifeTime.Transient);
-            var obj1 = container.Resolve<ISimpleInterface>();
-            var obj2 = container.Resolve<ISimpleInterface>();
-            Assert.NotEqual(obj1, obj2);
-        }
-
+        
         [Fact]
         public void ResolveTypeNotRegisteredThrowsInvalidOperationException()
         {
@@ -63,16 +60,11 @@ namespace SprocketWTW.Tests
             Assert.NotNull(ex);
         }
 
-        [Fact]
-        public void RegisterComponentSingletonAlwaysSameObject()
+        private static Mock<ILifetimeManagement> GetMockLifetimeManagement()
         {
-            var container = new SprocketWTWContainer();
-
-            container.Register<ISimpleInterface, SimpleClass>(LifeTime.Singleton);
-            var obj1 = container.Resolve<ISimpleInterface>();
-            var obj2 = container.Resolve<ISimpleInterface>();
-
-            Assert.Equal(obj1, obj2);
+            Mock<ILifetimeManagement> moqMang = new Mock<ILifetimeManagement>();
+            moqMang.Setup(t => t.Resolve(It.IsAny<RegistrationDetails>())).Returns(new SimpleClass());
+            return moqMang;
         }
     }
 }

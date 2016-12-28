@@ -13,7 +13,7 @@ namespace SprocketWTW.Lifetime
             _createdTypes = new ConcurrentDictionary<Type, object>();
         }
 
-        public object Resolve(Type createMe)
+        public object CreateType(Type createMe)
         {
             if (!_createdTypes.ContainsKey(createMe))
             {

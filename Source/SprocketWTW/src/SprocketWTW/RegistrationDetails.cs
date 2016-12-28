@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SprocketWTW
 {
@@ -11,6 +8,6 @@ namespace SprocketWTW
 
         public Type ResolvedType { get; set; }
 
-        public LifeTime LifeTime { get; set; }
+        public Lifetime.LifetimeEnum LifetimeEnum { get; set; }
     }
 }

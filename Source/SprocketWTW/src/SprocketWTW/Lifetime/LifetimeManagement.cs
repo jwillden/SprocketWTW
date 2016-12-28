@@ -4,19 +4,19 @@ namespace SprocketWTW.Lifetime
 {
     public class LifetimeManagement : ILifetimeManagement
     {
-        private readonly Dictionary<LifeTime, ILifetimeManager> _allManagers;
+        private readonly Dictionary<LifetimeEnum, ILifetimeManager> _allManagers;
         public LifetimeManagement()
         {
-            _allManagers = new Dictionary<LifeTime, ILifetimeManager>
+            _allManagers = new Dictionary<LifetimeEnum, ILifetimeManager>
             {
-                {LifeTime.Transient, new TransientLifetimeManager()},
-                {LifeTime.Singleton, new SingletonLifetimeManager()}
+                {LifetimeEnum.Transient, new TransientLifetimeManager()},
+                {LifetimeEnum.Singleton, new SingletonLifetimeManager()}
             };
         }
 
         public object Resolve(RegistrationDetails details)
         {
-            return _allManagers[details.LifeTime].Resolve(details.ResolvedType);
+            return _allManagers[details.LifetimeEnum].CreateType(details.ResolvedType);
         }
     }
 }

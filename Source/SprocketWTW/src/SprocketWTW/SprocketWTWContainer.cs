@@ -8,13 +8,14 @@ namespace SprocketWTW
 
     public class SprocketWTWContainer
     {
-        private readonly Dictionary<Type, RegistrationDetails> _typeRegistrations;
+        private readonly Dictionary<Type, RegistrationDetails> _typeRegistrations
+            = new Dictionary<Type, RegistrationDetails>();
+
         private readonly ILifetimeManagement _management;
         
 
         public SprocketWTWContainer()
         {
-            _typeRegistrations = new Dictionary<Type, RegistrationDetails>();
             _management = new LifetimeManagement();
         }
 
@@ -25,10 +26,10 @@ namespace SprocketWTW
 
         public void Register<I, T>()
         {
-            Register<I, T>(LifeTime.Transient);
+            Register<I, T>(LifetimeEnum.Transient);
         }
 
-        public void Register<I, T>(LifeTime lifeTime)
+        public void Register<I, T>(LifetimeEnum lifetime)
         {
             // If the type has already been registered, freak out.
             if (_typeRegistrations.ContainsKey(typeof(I)))
@@ -40,7 +41,7 @@ namespace SprocketWTW
             {
                 RegisteredType = typeof(I),
                 ResolvedType = typeof(T),
-                LifeTime = lifeTime
+                LifetimeEnum = lifetime
             };
             _typeRegistrations.Add(typeof(I), details);
         }
