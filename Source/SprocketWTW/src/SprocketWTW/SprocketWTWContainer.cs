@@ -1,4 +1,6 @@
-﻿namespace SprocketWTW
+﻿using SprocketWTW.Lifetime;
+
+namespace SprocketWTW
 {
     using System;
     using System.Collections.Generic;
@@ -6,28 +8,45 @@
 
     public class SprocketWTWContainer
     {
-        private readonly Dictionary<Type, Type> typeRegistrations;
+        private readonly Dictionary<Type, RegistrationDetails> _typeRegistrations;
+        private readonly LifetimeManagement _management;
+        
 
         public SprocketWTWContainer()
         {
-            this.typeRegistrations = new Dictionary<Type, Type>();
+            _typeRegistrations = new Dictionary<Type, RegistrationDetails>();
+            _management = new LifetimeManagement();
         }
 
         public void Register<I, T>()
         {
-            this.typeRegistrations.Add(typeof(I), typeof(T));
+            _typeRegistrations.Add(typeof(I), new RegistrationDetails
+            {
+                RegisteredType = typeof(I),
+                ResolvedType = typeof(T),
+                LifeTime = LifeTime.Transient
+            });
+        }
+
+        public void Register<I, T>(LifeTime lifeTime)
+        {
+            var details = new RegistrationDetails()
+            {
+                RegisteredType = typeof(I),
+                ResolvedType = typeof(T),
+                LifeTime = lifeTime
+            };
+            _typeRegistrations.Add(typeof(I), details);
         }
 
         public T Resolve<T>() where T: class
         {
-            if (!this.typeRegistrations.Keys.Contains(typeof(T)))
+            if (!_typeRegistrations.Keys.Contains(typeof(T)))
             {
-                throw new InvalidOperationException($"Type {typeof(T).FullName} has not been registered. Please register this type using Register before attempting to Resolve it.");
+                throw new InvalidOperationException($"Type {typeof(T).FullName} has not been registered. Please register this type before attempting to Resolve it.");
             }
 
-            var typeToCreate = this.typeRegistrations[typeof(T)];
-
-            return Activator.CreateInstance(typeToCreate) as T;
+            return (T)_management.Resolve(_typeRegistrations[typeof(T)]);
         }
     }
 }

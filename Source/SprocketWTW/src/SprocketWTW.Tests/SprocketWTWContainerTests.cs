@@ -26,11 +26,34 @@ namespace SprocketWTW.Tests
         }
 
         [Fact]
+        public void RegisterComponentExplicitTransientAlwaysNewObject()
+        {
+            var container = new SprocketWTWContainer();
+            container.Register<ISimpleInterface, SimpleClass>(LifeTime.Transient);
+            var obj1 = container.Resolve<ISimpleInterface>();
+            var obj2 = container.Resolve<ISimpleInterface>();
+            Assert.NotEqual(obj1, obj2);
+        }
+
+        [Fact]
         public void ResolveTypeNotRegisteredThrowsInvalidOperationException()
         {
             var container = new SprocketWTWContainer();
             Exception ex = Assert.Throws<InvalidOperationException>(() => { container.Resolve<ISimpleInterface>(); });
+
             Assert.NotNull(ex);
+        }
+
+        [Fact]
+        public void RegisterComponentSingletonAlwaysSameObject()
+        {
+            var container = new SprocketWTWContainer();
+
+            container.Register<ISimpleInterface, SimpleClass>(LifeTime.Singleton);
+            var obj1 = container.Resolve<ISimpleInterface>();
+            var obj2 = container.Resolve<ISimpleInterface>();
+
+            Assert.Equal(obj1, obj2);
         }
     }
 }
