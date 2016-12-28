@@ -2,7 +2,7 @@
 
 namespace SprocketWTW.Lifetime
 {
-    public class LifetimeManagement
+    public class LifetimeManagement : ILifetimeManagement
     {
         private readonly Dictionary<LifeTime, ILifetimeManager> _allManagers;
         public LifetimeManagement()

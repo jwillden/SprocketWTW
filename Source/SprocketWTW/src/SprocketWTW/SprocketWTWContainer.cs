@@ -9,7 +9,7 @@ namespace SprocketWTW
     public class SprocketWTWContainer
     {
         private readonly Dictionary<Type, RegistrationDetails> _typeRegistrations;
-        private readonly LifetimeManagement _management;
+        private readonly ILifetimeManagement _management;
         
 
         public SprocketWTWContainer()
@@ -18,19 +18,25 @@ namespace SprocketWTW
             _management = new LifetimeManagement();
         }
 
+        public SprocketWTWContainer(ILifetimeManagement management)
+        {
+            _management = management;
+        }
+
         public void Register<I, T>()
         {
-            _typeRegistrations.Add(typeof(I), new RegistrationDetails
-            {
-                RegisteredType = typeof(I),
-                ResolvedType = typeof(T),
-                LifeTime = LifeTime.Transient
-            });
+            Register<I, T>(LifeTime.Transient);
         }
 
         public void Register<I, T>(LifeTime lifeTime)
         {
-            var details = new RegistrationDetails()
+            // If the type has already been registered, freak out.
+            if (_typeRegistrations.ContainsKey(typeof(I)))
+            {
+                throw new InvalidOperationException($"Type {typeof(I).FullName} has already been registered and may not be registered again.");
+            }
+
+            var details = new RegistrationDetails
             {
                 RegisteredType = typeof(I),
                 ResolvedType = typeof(T),

@@ -15,7 +15,7 @@ namespace SprocketWTW.Lifetime
 
         public object Resolve(Type createMe)
         {
-            if (_createdTypes.ContainsKey(createMe))
+            if (!_createdTypes.ContainsKey(createMe))
             {
                 _createdTypes.TryAdd(createMe, ObjectConstructor.Build(createMe));
             }

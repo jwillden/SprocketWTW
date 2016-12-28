@@ -8,3 +8,5 @@ Source/SprocketWTW/settings.StyleCop
 Source/SprocketWTW/.global.json.un~
 Source/SprocketWTW/.vs/restore.dg
 Source/SprocketWTW/global.json~
+*.user
+*.suo
