@@ -5,9 +5,22 @@ namespace SprocketWTW.Lifetime
 {
     public class TransientLifetimeManager : ILifetimeManager
     {
-        public object CreateType(Type createMe)
+
+        private IObjectConstructor _constructor;
+
+        public TransientLifetimeManager()
         {
-            var obj = ObjectConstructor.Build(createMe);
+            _constructor = new ObjectConstructor();
+        }
+
+        public TransientLifetimeManager(IObjectConstructor constructor)
+        {
+            _constructor = constructor;
+        }
+
+        public object CreateType(RegistrationDetails details)
+        {
+            var obj = _constructor.Build(details);
             return obj;
         }
     }

@@ -6,20 +6,26 @@ namespace SprocketWTW.Lifetime
 {
     public class SingletonLifetimeManager : ILifetimeManager
     {
-        private readonly ConcurrentDictionary<Type, object> _createdTypes;
+        private readonly ConcurrentDictionary<Type, object> _createdTypes = new ConcurrentDictionary<Type, object>();
+        private readonly IObjectConstructor _constructor;
 
         public SingletonLifetimeManager()
         {
-            _createdTypes = new ConcurrentDictionary<Type, object>();
+            _constructor = new ObjectConstructor();
         }
 
-        public object CreateType(Type createMe)
+        public SingletonLifetimeManager(IObjectConstructor constructor)
         {
-            if (!_createdTypes.ContainsKey(createMe))
+            _constructor = constructor;
+        }
+
+        public object CreateType(RegistrationDetails details)
+        {
+            if (!_createdTypes.ContainsKey(details.RegisteredType))
             {
-                _createdTypes.TryAdd(createMe, ObjectConstructor.Build(createMe));
+                _createdTypes.TryAdd(details.RegisteredType, _constructor.Build(details));
             }
-            return _createdTypes[createMe];
+            return _createdTypes[details.RegisteredType];
         }
     }
 }

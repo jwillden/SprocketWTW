@@ -4,6 +4,6 @@ namespace SprocketWTW.Lifetime
 {
     public interface ILifetimeManager
     {
-        object CreateType(Type createMe);
+        object CreateType(RegistrationDetails details);
     }
 }

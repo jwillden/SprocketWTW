@@ -8,55 +8,57 @@ namespace SprocketWTW.Tests
 
     public class SprocketWTWContainerTests
     {
+
+        // This test just enforces behavior. It doesn't actually assert anything.
         [Fact]
         public void RegisterComponentWithDefaultLifeCycle()
         {
             var moqMang = GetMockLifetimeManagement();
-            var container = new SprocketWTWContainer(moqMang.Object);
-            container.Register<ISimpleInterface, SimpleClass>();
+            var moqCache = GetMockRegistrationCache();
 
-            var obj = container.Resolve<ISimpleInterface>();
-            Assert.IsType<SimpleClass>(obj);
+            var container = new SprocketWTWContainer(moqMang.Object, moqCache.Object);
+
+            Exception ex = Record.Exception(() => container.Register<ISimpleInterface, SimpleClass>());
+
+            Assert.Null(ex);
         }
 
         [Fact]
         public void RegisterComponentWithExplicitLifeCycle()
         {
             var moqMang = GetMockLifetimeManagement();
-            var container = new SprocketWTWContainer(moqMang.Object);
-            container.Register<ISimpleInterface, SimpleClass>(LifetimeEnum.Transient);
+            var moqCache = GetMockRegistrationCache();
 
-            var obj = container.Resolve<ISimpleInterface>();
-            Assert.IsType<SimpleClass>(obj);
-        }
+            var container = new SprocketWTWContainer(moqMang.Object, moqCache.Object);
 
-        [Fact]
-        public void RegigsterComponentTransientAlwaysNewObject()
-        {
-            var container = new SprocketWTWContainer();
-            container.Register<ISimpleInterface, SimpleClass>();
+            Exception ex = Record.Exception(() => container.Register<ISimpleInterface, SimpleClass>(LifetimeEnum.Transient));
 
-            var obj1 = container.Resolve<ISimpleInterface>();
-            var obj2 = container.Resolve<ISimpleInterface>();
-            Assert.NotEqual(obj1, obj2);
+            Assert.Null(ex);
         }
 
         [Fact]
         public void RegisterSameComponentTwiceThrowsException()
         {
-            var container = new SprocketWTWContainer();
-            container.Register<ISimpleInterface, SimpleClass>();
-            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => { container.Register<ISimpleInterface, SimpleClass>(); });
+            var moqMang = GetMockLifetimeManagement();
+            var moqCache = GetMockRegistrationCache();
+            moqCache.Setup(t => t.Contains(typeof(ISimpleInterface))).Returns(true);
 
+            var container = new SprocketWTWContainer(moqMang.Object, moqCache.Object);
+            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => { container.Register<ISimpleInterface, SimpleClass>(); });
+            
             Assert.NotNull(ex);
         }
-        
+
         [Fact]
         public void ResolveTypeNotRegisteredThrowsInvalidOperationException()
         {
-            var container = new SprocketWTWContainer();
-            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => { container.Resolve<ISimpleInterface>(); });
+            var moqMang = GetMockLifetimeManagement();
+            var moqCache = GetMockRegistrationCache();
+            moqCache.Setup(t => t.Contains(typeof(ISimpleInterface))).Returns(false);
 
+            var container = new SprocketWTWContainer(moqMang.Object, moqCache.Object);
+
+            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => { container.Resolve<ISimpleInterface>(); });
             Assert.NotNull(ex);
         }
 
@@ -65,6 +67,22 @@ namespace SprocketWTW.Tests
             Mock<ILifetimeManagement> moqMang = new Mock<ILifetimeManagement>();
             moqMang.Setup(t => t.Resolve(It.IsAny<RegistrationDetails>())).Returns(new SimpleClass());
             return moqMang;
+        }
+
+        private static Mock<IRegistrationCache> GetMockRegistrationCache()
+        {
+            Mock<IRegistrationCache> moqCache = new Mock<IRegistrationCache>();
+            moqCache.Setup(t => t.RegisterType(It.IsAny<RegistrationDetails>()));
+            return moqCache;
+
+
+                /* 
+                void RegisterType(RegistrationDetails details);
+
+                bool Contains(Type T);
+            
+                RegistrationDetails Get(Type T);
+                */
         }
     }
 }

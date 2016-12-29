@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using SprocketWTW.Construction;
 
 namespace SprocketWTW.Lifetime
 {
@@ -16,7 +18,7 @@ namespace SprocketWTW.Lifetime
 
         public object Resolve(RegistrationDetails details)
         {
-            return _allManagers[details.LifetimeEnum].CreateType(details.ResolvedType);
+            return _allManagers[details.Lifetime].CreateType(details);
         }
     }
 }

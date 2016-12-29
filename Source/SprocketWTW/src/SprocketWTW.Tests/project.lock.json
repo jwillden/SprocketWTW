@@ -2673,6 +2673,12 @@
           "lib/netstandard1.1/xunit.runner.utility.dotnet.dll": {}
         }
       },
+      "xunit.runner.visualstudio/2.1.0": {
+        "type": "package"
+      },
+      "xunit.runners/2.0.0": {
+        "type": "package"
+      },
       "SprocketWTW/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.6",
@@ -7976,6 +7982,48 @@
         "xunit.runner.utility.nuspec"
       ]
     },
+    "xunit.runner.visualstudio/2.1.0": {
+      "sha512": "44vJFEQopk8SHfPMjgzn4QevRNfITO7zRZBo9lb+OPhID7v/q2gFaOgyEUomKilq2rwWUQ0m9yquBOzJL4L4aA==",
+      "type": "package",
+      "path": "xunit.runner.visualstudio/2.1.0",
+      "files": [
+        "build/_common/xunit.abstractions.dll",
+        "build/_common/xunit.runner.utility.desktop.dll",
+        "build/_common/xunit.runner.utility.dotnet.dll",
+        "build/_common/xunit.runner.visualstudio.testadapter.dll",
+        "build/monoandroid/_._",
+        "build/monotouch/_._",
+        "build/net20/xunit.runner.visualstudio.props",
+        "build/portable-net45+win8+wp8+wpa81/xunit.runner.visualstudio.props",
+        "build/uap10.0/xunit.runner.visualstudio.props",
+        "build/uap10.0/xunit.runner.visualstudio.targets",
+        "build/uap10.0/xunit.runner.visualstudio.uwp.dll",
+        "build/uap10.0/xunit.runner.visualstudio.uwp.pri",
+        "build/win8/_._",
+        "build/win81/xunit.runner.visualstudio.props",
+        "build/win81/xunit.runner.visualstudio.targets",
+        "build/win81/xunit.runner.visualstudio.win81.dll",
+        "build/win81/xunit.runner.visualstudio.win81.pri",
+        "build/wp8/_._",
+        "build/wpa81/xunit.runner.visualstudio.props",
+        "build/wpa81/xunit.runner.visualstudio.targets",
+        "build/wpa81/xunit.runner.visualstudio.wpa81.dll",
+        "build/wpa81/xunit.runner.visualstudio.wpa81.pri",
+        "build/xamarinios/_._",
+        "xunit.runner.visualstudio.2.1.0.nupkg.sha512",
+        "xunit.runner.visualstudio.nuspec"
+      ]
+    },
+    "xunit.runners/2.0.0": {
+      "sha512": "+dUmiiGf5IkoOreRr2MKqirWYPCa4MHQ4rEzUxSR7LiyQYko47DKz5x/fwFJCgfHTG5ClA+yuGDa6RYAvkDJjw==",
+      "type": "package",
+      "path": "xunit.runners/2.0.0",
+      "files": [
+        "readme.txt",
+        "xunit.runners.2.0.0.nupkg.sha512",
+        "xunit.runners.nuspec"
+      ]
+    },
     "SprocketWTW/1.0.0": {
       "type": "project",
       "path": "../SprocketWTW/project.json",
@@ -7984,11 +8032,12 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "Microsoft.NETCore.App >= 1.0.1",
       "Moq >= 4.6.38-alpha",
       "SprocketWTW >= 1.0.0-*",
       "dotnet-test-xunit >= 2.2.0-preview2-build1029",
-      "xunit >= 2.2.0-beta4-build3444"
+      "xunit >= 2.2.0-beta4-build3444",
+      "xunit.runner.visualstudio >= 2.1.0",
+      "xunit.runners >= 2.0.0"
     ],
     ".NETCoreApp,Version=v1.0": [
       "Microsoft.NETCore.App >= 1.0.1"
