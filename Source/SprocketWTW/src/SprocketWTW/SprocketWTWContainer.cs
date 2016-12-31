@@ -3,15 +3,10 @@ using SprocketWTW.Lifetime;
 
 namespace SprocketWTW
 {
-
     public class SprocketWTWContainer
     {
         private readonly ILifetimeManagement _management;
         private readonly IRegistrationCache _registrationCache;
-
-        public static IRegistrationCache RegistrationCache
-        { get; private set; }
-
 
         public SprocketWTWContainer()
         {
@@ -37,7 +32,6 @@ namespace SprocketWTW
             _registrationCache = cache;
         }
 
-
         public void Register<I, T>()
         {
             Register<I, T>(LifetimeEnum.Transient);
@@ -48,7 +42,7 @@ namespace SprocketWTW
             // If the type has already been registered, freak out.
             if (_registrationCache.Contains(typeof(I)))
             {
-                throw new InvalidOperationException($"Type {typeof(I).FullName} has already been registered and may not be registered again.");
+                throw new InvalidOperationException($"Type {typeof(I).FullName} has already been registered and cannot be registered again.");
             }
 
             var details = new RegistrationDetails

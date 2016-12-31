@@ -18,6 +18,13 @@ namespace SprocketWTW.Lifetime
 
         public object Resolve(RegistrationDetails details)
         {
+            // Ensure the dependency graph for a given object is built
+            if (details.Instructions == null)
+            {
+                DependencyGenerator buildDependencies = new DependencyGenerator();
+                buildDependencies.BuildGraph(details);
+            }
+
             return _allManagers[details.Lifetime].CreateType(details);
         }
     }

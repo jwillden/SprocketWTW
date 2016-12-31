@@ -23,7 +23,7 @@ namespace SprocketWTW.Lifetime
         {
             if (!_createdTypes.ContainsKey(details.RegisteredType))
             {
-                _createdTypes.TryAdd(details.RegisteredType, _constructor.Build(details));
+                _createdTypes.TryAdd(details.RegisteredType, _constructor.Build(details.Instructions));
             }
             return _createdTypes[details.RegisteredType];
         }

@@ -21,7 +21,6 @@ namespace SprocketWTW
 
         public RegistrationDetails Get(Type T)
         {
-            Console.WriteLine("I'm inside the get method");
             return TypeRegistrations[T];
         }
     }

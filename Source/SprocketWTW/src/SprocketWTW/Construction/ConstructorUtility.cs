@@ -9,7 +9,8 @@ namespace SprocketWTW.Construction
     {
         public static IEnumerable<ConstructorInfo> GetConstructors(Type t)
         {
-            return t.GetTypeInfo().DeclaredConstructors.Where(n => !n.IsStatic && n.IsPublic).OrderByDescending(c => c.GetParameters().Count());
+            return t.GetTypeInfo().DeclaredConstructors.Where(n => !n.IsStatic && n.IsPublic)
+                .OrderByDescending(c => c.GetParameters().Count());
         }
     }
 }

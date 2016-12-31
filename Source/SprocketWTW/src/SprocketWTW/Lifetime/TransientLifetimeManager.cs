@@ -1,12 +1,11 @@
-﻿using System;
-using SprocketWTW.Construction;
+﻿using SprocketWTW.Construction;
 
 namespace SprocketWTW.Lifetime
 {
     public class TransientLifetimeManager : ILifetimeManager
     {
 
-        private IObjectConstructor _constructor;
+        private readonly IObjectConstructor _constructor;
 
         public TransientLifetimeManager()
         {
@@ -20,7 +19,7 @@ namespace SprocketWTW.Lifetime
 
         public object CreateType(RegistrationDetails details)
         {
-            var obj = _constructor.Build(details);
+            var obj = _constructor.Build(details.Instructions);
             return obj;
         }
     }

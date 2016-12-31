@@ -2,6 +2,7 @@
 using Moq;
 using Xunit;
 using SprocketWTW.Lifetime;
+using SprocketWTW.Tests.TestClasses;
 
 namespace SprocketWTW.Tests
 {
@@ -9,7 +10,6 @@ namespace SprocketWTW.Tests
     public class SprocketWTWContainerTests
     {
 
-        // This test just enforces behavior. It doesn't actually assert anything.
         [Fact]
         public void RegisterComponentWithDefaultLifeCycle()
         {
@@ -74,15 +74,6 @@ namespace SprocketWTW.Tests
             Mock<IRegistrationCache> moqCache = new Mock<IRegistrationCache>();
             moqCache.Setup(t => t.RegisterType(It.IsAny<RegistrationDetails>()));
             return moqCache;
-
-
-                /* 
-                void RegisterType(RegistrationDetails details);
-
-                bool Contains(Type T);
-            
-                RegistrationDetails Get(Type T);
-                */
         }
     }
 }

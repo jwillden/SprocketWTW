@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using SprocketWTW.Construction;
 
 namespace SprocketWTW
@@ -14,6 +13,5 @@ namespace SprocketWTW
 
         public BuildDetails Instructions { get; set; }
 
-        public ConstructorInfo CtorInfo { get; set; }
     }
 }

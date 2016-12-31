@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using SprocketWTW.Lifetime;
+﻿using SprocketWTW.Lifetime;
 using SprocketWTW.Construction;
 using Xunit;
 using Moq;
+using SprocketWTW.Tests.TestClasses;
 
 namespace SprocketWTW.Tests.Lifetime
 {
@@ -14,8 +11,8 @@ namespace SprocketWTW.Tests.Lifetime
         [Fact]
         public void TransientNewObject()
         {
-            var moqBuilder = new Moq.Mock<IObjectConstructor>();
-            moqBuilder.Setup(t => t.Build(It.IsAny<RegistrationDetails>())).Returns(() => new SimpleClass());
+            var moqBuilder = new Mock<IObjectConstructor>();
+            moqBuilder.Setup(t => t.Build(It.IsAny<BuildDetails>())).Returns(() => new SimpleClass());
 
             var manager = new TransientLifetimeManager(moqBuilder.Object);
             var obj1 = manager.CreateType(new RegistrationDetails());

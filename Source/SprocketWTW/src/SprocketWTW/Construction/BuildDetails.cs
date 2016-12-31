@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using SprocketWTW.Lifetime;
 
 namespace SprocketWTW.Construction
 {
+
+    /* Contains all details needed to construct an object including
+     * the Constructor to use
+     * the concrete type to build
+     * any dependencies
+     */
     public class BuildDetails
     {
 
@@ -14,8 +19,6 @@ namespace SprocketWTW.Construction
         }
 
         public Type TypeToCreate { get; set; }
-
-        public LifetimeEnum Lifetime { get; set; }
 
         public ConstructorInfo ConstructorToUse { get; set; }
 
