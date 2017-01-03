@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using SprocketWTW.Lifetime;
 
 namespace SprocketWTW
@@ -32,36 +33,63 @@ namespace SprocketWTW
             _registrationCache = cache;
         }
 
-        public void Register<I, T>()
+        public SprocketWTWContainer Register<I, T>()
         {
-            Register<I, T>(LifetimeEnum.Transient);
+            return Register<I, T>(LifetimeEnum.Transient);
         }
 
-        public void Register<I, T>(LifetimeEnum lifetime)
+        public SprocketWTWContainer Register<I, T>(LifetimeEnum lifetime)
         {
-            // If the type has already been registered, freak out.
-            if (_registrationCache.Contains(typeof(I)))
-            {
-                throw new InvalidOperationException($"Type {typeof(I).FullName} has already been registered and cannot be registered again.");
-            }
+            return Register(typeof(I), typeof(T), lifetime);
+        }
 
+        public SprocketWTWContainer Register(Type typeToRegister, Type typeToBuild, LifetimeEnum lifetime)
+        {
             var details = new RegistrationDetails
             {
-                RegisteredType = typeof(I),
-                ResolvedType = typeof(T),
+                RegisteredType = typeToRegister,
+                ResolvedType = typeToBuild,
                 Lifetime = lifetime
             };
             _registrationCache.RegisterType(details);
+            return this;
+        }
+
+        public SprocketWTWContainer Register<T>(object instance)
+        {
+            return Register(typeof(T), instance);
+        }
+
+        public SprocketWTWContainer Register(Type typeToRegister, object instance)
+        {
+            var details = new RegistrationDetails
+            {
+                RegisteredType = typeToRegister,
+                Lifetime = LifetimeEnum.Singleton,
+                IsCreated = true
+            };
+
+            _registrationCache.RegisterType(details);
+            _management.RegisterInstance(typeToRegister, instance);
+
+            return this;
         }
 
         public T Resolve<T>() where T: class
         {
-            if (!_registrationCache.Contains(typeof(T)))
+            return Resolve(typeof(T)) as T;
+        }
+
+        public object Resolve(Type resolveMe)
+        {
+            Type ultimateType = resolveMe;
+
+            if (!_registrationCache.Contains(resolveMe))
             {
-                throw new InvalidOperationException($"Type {typeof(T).FullName} has not been registered. Please register this type before attempting to Resolve it.");
+                throw new InvalidOperationException($"Type {ultimateType.FullName} has not been registered. Please register this type before attempting to Resolve it.");
             }
 
-            return (T)_management.Resolve(_registrationCache.Get(typeof(T)));
+            return _management.Resolve(_registrationCache.Get(ultimateType));
         }
     }
 }

@@ -11,7 +11,7 @@ namespace SprocketWTW.Tests.Construction
         [Fact]
         public void GetPublicNonStaticConstructors()
         {
-            var results = ConstructorUtility.GetConstructors(typeof(ComplexClass));
+            var results = UtilityExtensions.GetConstructors(typeof(ComplexClass));
             Assert.Equal(1, results.Count());
         }
     }

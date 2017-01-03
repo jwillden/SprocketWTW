@@ -22,6 +22,8 @@ namespace SprocketWTW.Construction
 
         public ConstructorInfo ConstructorToUse { get; set; }
 
-        public IEnumerable<BuildDetails> Dependencies { get; set; }
+        public List<BuildDetails> Dependencies { get; set; }
+
+        
     }
 }

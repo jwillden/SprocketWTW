@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using Moq;
@@ -55,6 +56,9 @@ namespace SprocketWTW.Tests.Construction
             Assert.NotNull(complexDetails.Instructions.ConstructorToUse);
             Assert.Equal(1, complexDetails.Instructions.ConstructorToUse.GetParameters().Length);
             Assert.NotNull(complexDetails.Instructions);
+            Assert.NotNull(complexDetails.Instructions.Dependencies);
+            Assert.Equal(complexDetails.Instructions.Dependencies.Count, 1);
+            Assert.Equal(complexDetails.Instructions.Dependencies[0].TypeToCreate, typeof(SimpleClass));
         }
 
         [Fact]
@@ -76,6 +80,16 @@ namespace SprocketWTW.Tests.Construction
             Assert.NotNull(details.Instructions);
             Assert.Equal(0, details.Instructions.ConstructorToUse.GetParameters().Length);
             Assert.Equal(0, details.Instructions.Dependencies.Count());
+        }
+
+        [Fact]
+        public void GenerateGraphForGenericType()
+        {
+            Mock<IRegistrationCache> moqCache = new Mock<IRegistrationCache>();
+            moqCache.Setup(t => t.Contains(typeof(ISimpleInterface))).Returns(true);
+            moqCache.Setup(t => t.Contains(typeof(List<>))).Returns(true);
+
+
         }
 
         private RegistrationDetails GetSimpleRegDetails()

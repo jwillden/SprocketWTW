@@ -5,12 +5,14 @@ using System.Reflection;
 
 namespace SprocketWTW.Construction
 {
-    public class ConstructorUtility
+    public static class UtilityExtensions
     {
-        public static IEnumerable<ConstructorInfo> GetConstructors(Type t)
+        public static IEnumerable<ConstructorInfo> GetConstructors(this Type t)
         {
-            return t.GetTypeInfo().DeclaredConstructors.Where(n => !n.IsStatic && n.IsPublic)
+            return t.GetTypeInfo().DeclaredConstructors.Where(x => !x.IsStatic && x.IsPublic)
                 .OrderByDescending(c => c.GetParameters().Count());
         }
+
+        
     }
 }

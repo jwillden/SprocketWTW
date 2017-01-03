@@ -27,5 +27,15 @@ namespace SprocketWTW.Lifetime
             }
             return _createdTypes[details.RegisteredType];
         }
+
+        public void AddInstance(Type t, object instance)
+        {
+            _createdTypes.TryAdd(t, instance);
+        }
+
+        public bool HasInstance(Type t)
+        {
+            return _createdTypes.ContainsKey(t);
+        }
     }
 }

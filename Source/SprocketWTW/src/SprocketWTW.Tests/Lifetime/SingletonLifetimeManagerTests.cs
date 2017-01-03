@@ -64,5 +64,22 @@ namespace SprocketWTW.Tests.Lifetime
 
             Assert.NotEqual(obj1, obj2);
         }
+
+        [Fact]
+        public void RegisteredInstanceReturnsRegisteredInstance()
+        {
+            var details = new RegistrationDetails
+            {
+                RegisteredType = typeof(ISimpleInterface),
+                Instructions = new BuildDetails()
+            };
+
+            var manager = new SingletonLifetimeManager();
+            var simpleInstance = new SimpleClass();
+            manager.AddInstance(details.RegisteredType, simpleInstance);
+            var returnInstance = manager.CreateType(details);
+
+            Assert.Equal(simpleInstance, returnInstance);
+        }
     }
 }

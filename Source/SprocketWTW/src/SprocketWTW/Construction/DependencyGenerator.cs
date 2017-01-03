@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -20,9 +21,13 @@ namespace SprocketWTW.Construction
 
         public void BuildGraph(RegistrationDetails details)
         {
+
+            if (details.IsCreated)
+                return;
+
             // Get the constructors. They are already ordered by parameter count descending.
             // Work from most descriptive to least to find one that is resolveable.
-            var constructors = ConstructorUtility.GetConstructors(details.ResolvedType);
+            var constructors = details.ResolvedType.GetConstructors();
 
             foreach (var info in constructors)
             {
@@ -30,7 +35,20 @@ namespace SprocketWTW.Construction
 
                 // If all parameters are registered or it's the default constructor, 
                 // use this constructor.
-                if (parms.All(p => _cache.Contains(p.ParameterType)) || parms.Length == 0)
+                var tempNonGenericCache = new List<Type>();
+                foreach (var parm in parms)
+                {
+                    if (parm.ParameterType.GetTypeInfo().IsGenericType)
+                        tempNonGenericCache.Add(parm.ParameterType.GetGenericTypeDefinition());
+                    else
+                    {
+                        tempNonGenericCache.Add(parm.ParameterType);
+                    }
+                }
+
+                // If it's an IEnumerable<T>, we need to do something special I think, but I'm not really sure what.
+
+                if (tempNonGenericCache.All(p => _cache.Contains(p)) || parms.Length == 0)
                 {
                     details.Instructions = new BuildDetails
                     {
@@ -39,11 +57,12 @@ namespace SprocketWTW.Construction
                     };
 
                     // ensure all subdependencies have their trees built as well.
-                    foreach (var p in parms)
+                    foreach (var p in tempNonGenericCache)
                     {
-                        RegistrationDetails subDetails = _cache.Get(p.ParameterType);
+                        RegistrationDetails subDetails = _cache.Get(p);
                         if (subDetails.Instructions == null)
                             BuildGraph(subDetails);
+                        details.Instructions.Dependencies.Add(subDetails.Instructions);
                     }
                 }
             }

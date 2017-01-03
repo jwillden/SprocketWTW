@@ -37,19 +37,6 @@ namespace SprocketWTW.Tests
         }
 
         [Fact]
-        public void RegisterSameComponentTwiceThrowsException()
-        {
-            var moqMang = GetMockLifetimeManagement();
-            var moqCache = GetMockRegistrationCache();
-            moqCache.Setup(t => t.Contains(typeof(ISimpleInterface))).Returns(true);
-
-            var container = new SprocketWTWContainer(moqMang.Object, moqCache.Object);
-            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => { container.Register<ISimpleInterface, SimpleClass>(); });
-            
-            Assert.NotNull(ex);
-        }
-
-        [Fact]
         public void ResolveTypeNotRegisteredThrowsInvalidOperationException()
         {
             var moqMang = GetMockLifetimeManagement();

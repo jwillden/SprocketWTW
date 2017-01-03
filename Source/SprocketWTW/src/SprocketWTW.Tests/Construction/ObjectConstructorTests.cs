@@ -17,7 +17,7 @@ namespace SprocketWTW.Tests.Construction
                 ResolvedType = typeof(SimpleClass),
                 Instructions = new BuildDetails
                 {
-                    ConstructorToUse = ConstructorUtility.GetConstructors(typeof(SimpleClass)).First(),
+                    ConstructorToUse = UtilityExtensions.GetConstructors(typeof(SimpleClass)).First(),
                     TypeToCreate = typeof(SimpleClass)
                 }
             };
@@ -46,7 +46,7 @@ namespace SprocketWTW.Tests.Construction
             var simpleDetails = GetSimpleClassDetails();
             var rootDetails = new BuildDetails
             {
-                ConstructorToUse = ConstructorUtility.GetConstructors(typeof(MultipleConstructorParamsClass)).First(),
+                ConstructorToUse = UtilityExtensions.GetConstructors(typeof(MultipleConstructorParamsClass)).First(),
                 TypeToCreate = typeof(MultipleConstructorParamsClass),
                 Dependencies = new List<BuildDetails>
                 {
@@ -66,7 +66,7 @@ namespace SprocketWTW.Tests.Construction
         {
             return new BuildDetails
             {
-                ConstructorToUse = ConstructorUtility.GetConstructors(typeof(SimpleClass)).First(),
+                ConstructorToUse = UtilityExtensions.GetConstructors(typeof(SimpleClass)).First(),
                 TypeToCreate = typeof(SimpleClass)
             };
         }
@@ -75,7 +75,7 @@ namespace SprocketWTW.Tests.Construction
         {
             return new BuildDetails()
             {
-                ConstructorToUse = ConstructorUtility
+                ConstructorToUse = UtilityExtensions
                     .GetConstructors(typeof(ComplexClass))
                     .FirstOrDefault(t => t.GetParameters().Count() == 1),
                 TypeToCreate = typeof(ComplexClass),

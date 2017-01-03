@@ -13,5 +13,9 @@ namespace SprocketWTW
 
         public BuildDetails Instructions { get; set; }
 
+        public bool IsCreated { get; set; }
+
+        public Func<SprocketWTWContainer, object> ImplementationFactory { get; set; }
+
     }
 }
